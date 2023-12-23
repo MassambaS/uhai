@@ -8,7 +8,6 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 
 from knox.views import LoginView as KnoxLoginView
-from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 
 from .serializers import UserSerializer, AuthSerializer, RegisterUserSerializer
 from .models import ShmisUser
@@ -51,30 +50,3 @@ class LoginView(KnoxLoginView):
         user = serializer.validated_data['user']
         login(request, user)
         return super(LoginView, self).post(request, format=None)    
-
-
-"""
-class RegisterUserView(generics.CreateAPIView):
-    serializer_class = RegisterUserSerializer
-
-
-
-class ManageUserView(generics.RetrieveUpdateAPIView):
-
-    serializer_class = UserSerializer
-    permission_classes = (permissions.IsAuthenticated,)
-
-    def get_object(self):
-        return self.request.user
-    
-
-
-class UserList(generics.ListCreateAPIView):
-    queryset = ShmisUser.objects.all()
-    serializer_class = UserSerializer
-    
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = UserSerializer(queryset, many=True)
-        return Response(serializer.data)
-"""

@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
 
-    'apps.accounts.apps.AccountsConfig'
+    'apps.accounts.apps.AccountsConfig',
+    'apps.medicals.apps.MedicalsConfig',
+    'apps.schools.apps.SchoolsConfig'
 ]
 
 MIDDLEWARE = [
