@@ -7,5 +7,6 @@ django-rest-knox
 jinja2
 boto3
 wheel
+mysqlclient
 drf-spectacular
 pika==1.3.2
