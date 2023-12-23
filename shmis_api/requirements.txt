@@ -1,0 +1,12 @@
+django==4.2.7
+gunicorn==20.1.0
+djangorestframework==3.14.0
+django-cors-headers==4.3.0
+django-extensions
+django-rest-knox
+jinja2
+boto3
+wheel
+psycopg2
+drf-spectacular
+pika==1.3.2
