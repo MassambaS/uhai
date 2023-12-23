@@ -1,0 +1,28 @@
+GET http://localhost:8000/users/
+Content-Type: application/json
+
+###
+
+POST http://localhost:8000/users/
+Content-Type: application/json
+
+{ "first_name":"mass", "last_name":"sall","email": "mass@gmail.com", "password": "mass1234" }
+
+###
+
+POST http://localhost:8000/users/login/
+Content-Type: application/json
+{ "email":"mass@gmail.com", "password":"mass1234" }
+
+###
+
+GET http://localhost:8000/accounts/token/
+Content-Type: application/json
+
+
+###
+
+GET http://localhost:8000/accounts/logout/
+Content-Type: application/json
+
+###
