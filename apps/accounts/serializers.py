@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AuthSerializer(serializers.Serializer):
-    '''serializer for the user authentication object'''
+    """serializer for the user authentication object"""
     username = serializers.CharField()
     password = serializers.CharField(
         style={'input_type': 'password'},
@@ -49,9 +49,11 @@ class AuthSerializer(serializers.Serializer):
 
 class RegisterUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+
     def create(self, validated_data):
         if ShmisUser.objects.filter(email=validated_data['email']):
             raise ValidationError("Email already used")
+        
         user = ShmisUser.objects.create_user(
             email=validated_data['email'],
             password=validated_data['password'],
@@ -67,8 +69,3 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         model = ShmisUser
         fields = '__all__'
         read_only_fields = DEFAULT_READ_ONLY_FIELDS
-        extra_kwargs = {
-            'email': {'required': True},
-            'first_name': {'required': True},
-            'last_name': {'required': True},
-        }

@@ -1,7 +1,7 @@
 from django.db import models
 from .._bases.models.base import Base, OWNERSHIP
 from ..schools.models import Students, Village
-from ..accounts.models import ShmisUser
+from django.conf import settings
 
 
 class Hospital(models.Model):
@@ -40,7 +40,7 @@ class Devices(Base):
         abstract = True  
 
     why = models.ForeignKey(Examinations, on_delete=models.CASCADE)
-    by = models.ForeignKey(ShmisUser, on_delete=models.SET_NULL, null=True, blank=True) 
+    by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True) 
 
 class OximeteryTensiometer(Devices):
     """TODO: """
@@ -73,21 +73,18 @@ class BMI(Devices):
 class Prescriptions(Base):
     """TODO: """
     class Meta:
-        db_table='prescriptions'
+        abstract = True  
 
-    examinations = models.ForeignKey(Examinations, on_delete=models.CASCADE)
-    by = models.ForeignKey(ShmisUser, on_delete=models.CASCADE)
+    examinations = models.ForeignKey(Examinations, on_delete=models.SET_NULL, null=True, blank=True)
+    by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    start = models.DateTimeField(null=True,blank=True)
+    end = models.DateTimeField(null=True,blank=True)
+    comments = models.TextField()
 
-class MedicalLeave(Base):    
+class MedicalLeave(Prescriptions):    
     """TODO: """
     class Meta:
         db_table='medical_leaves'
-
-    comments = models.TextField(default='')
-    start = models.DateTimeField(null=True,blank=True)
-    end = models.DateTimeField(null=True,blank=True)
-
-    prescription = models.ForeignKey(Prescriptions, on_delete=models.CASCADE)
 
 class Drugs(Base):
     """TODO: """
@@ -96,7 +93,7 @@ class Drugs(Base):
     
     name = models.CharField(max_length=255)
 
-class DrugsPrescripted(Base):
+class DrugsPrescriptions(Prescriptions):
     """TODO: """   
     class Meta:
         db_table='drugs_prescriptions'
@@ -111,14 +108,7 @@ class DrugsPrescripted(Base):
         ("MO_NO_NI","Morning, Noon & Night")
     ]
 
-
-    comments = models.TextField()
-    drug = models.ForeignKey(Drugs, on_delete=models.CASCADE)
+    drug = models.ForeignKey(Drugs, on_delete=models.SET_NULL, null=True, blank=True)
     taking_number = models.IntegerField(default=1)
     taking_interval = models.CharField(max_length=8,choices=MEDICATION_TIMES)
     renew = models.BooleanField(default=False)
-
-    start = models.DateTimeField(null=True,blank=True)
-    end = models.DateTimeField(null=True,blank=True)
-    
-    prescription = models.ForeignKey(Prescriptions, on_delete=models.CASCADE)
